@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const LatLng myCurrentLocation = LatLng(28.5175, 81.7787);
-
-class GoogleMapHomePage extends StatefulWidget {
-  const GoogleMapHomePage({super.key});
+class GoogleMapFlutter extends StatefulWidget {
+  const GoogleMapFlutter({super.key});
 
   @override
-  State<GoogleMapHomePage> createState() => _GoogleMapHomePageState();
+  State<GoogleMapFlutter> createState() => _GoogleMapFlutterState();
 }
 
-class _GoogleMapHomePageState extends State<GoogleMapHomePage> {
+class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
+  LatLng myCurrentLocation = const LatLng(28.3949, 84.1240);
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
           target: myCurrentLocation,
-          zoom: 15
+          // zoom: 15
         ),
       ),
     );
