@@ -12,7 +12,7 @@ class GoogleMapFlutter extends StatefulWidget {
 
 class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
   // Initial location for the map's camera position (latitude and longitude)
-  LatLng myCurrentLocation = const LatLng(27.7172, 85.3240);
+  LatLng myCurrentLocation = const LatLng(28.578382, 81.63359);
   late GoogleMapController googleMapController;
   Set<Marker> markers = {};
 
@@ -42,7 +42,7 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
         ),
         onPressed: () async {
           // Getting the current position of the user
-          Position position = await _determinePosition();
+          Position position = await currentPosition();
 
           // Animating the camera to the user's current position
           googleMapController.animateCamera(
@@ -72,7 +72,7 @@ class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
   }
 
   // Function to determine the user's current position
-  Future<Position> _determinePosition() async {
+  Future<Position> currentPosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
