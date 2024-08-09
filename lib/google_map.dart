@@ -12,7 +12,9 @@ class GoogleMapFlutter extends StatefulWidget {
 
 class _GoogleMapFlutterState extends State<GoogleMapFlutter> {
   // Initial location for the map's camera position (latitude and longitude)
-  LatLng myCurrentLocation = const LatLng(28.578382, 81.63359);
+  LatLng myCurrentLocation = const LatLng(27.7172, 85.3240);
+  // LatLng myCurrentLocation = const LatLng(28.578382, 81.63359);
+
   late GoogleMapController googleMapController;
   Set<Marker> markers = {};
 

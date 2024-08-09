@@ -102,14 +102,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.21"
-  flutter_polyline_points:
-    dependency: "direct main"
-    description:
-      name: flutter_polyline_points
-      sha256: "3a1c8c30abee9fb0fbe44c70d5d1cedb10ef28ec7ea285c669f02b3e183483aa"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -224,22 +216,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.15.4"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      sha256: b9c29a161230ee03d3ccf545097fccd9b87a5264228c5d348202e0f0c28f9010
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.2"
-  http_parser:
-    dependency: transitive
-    description:
-      name: http_parser
-      sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.2"
   leak_tracker:
     dependency: transitive
     description:
