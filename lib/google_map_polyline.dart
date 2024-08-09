@@ -34,7 +34,9 @@ class _GoogleMapPolylineState extends State<GoogleMapPolyline> {
           ),
           position: pointOnMap[i],
           infoWindow: const InfoWindow(
-              title: " Place around my Country", snippet: " So Beautiful "),
+            title: " Place around my Country",
+            snippet: " So Beautiful ",
+          ),
           icon: BitmapDescriptor.defaultMarker,
         ),
       );
@@ -54,7 +56,7 @@ class _GoogleMapPolylineState extends State<GoogleMapPolyline> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-     polylines: _polyline,
+        polylines: _polyline,
         myLocationButtonEnabled: false,
         markers: markers,
         initialCameraPosition: CameraPosition(

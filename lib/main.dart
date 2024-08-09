@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_map_in_flutter/google_map_polygon.dart';
 import 'package:google_map_in_flutter/google_map_polyline.dart';
-import 'package:google_map_in_flutter/polyogn_in_map.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const PolyognInGoogleMap(),
+      home: const GoogleMapPolygon(),
     );
   }
 }
