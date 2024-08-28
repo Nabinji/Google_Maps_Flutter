@@ -78,6 +78,36 @@ class _CustomInfoWindowsState extends State<CustomInfoWindows> {
                         fontSize: 18,
                       ),
                     ),
+                    const   Row(
+                   children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 20,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 20,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 20,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 20,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 20,
+                        ),
+                        Text("(5)")
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -120,7 +150,7 @@ class _CustomInfoWindowsState extends State<CustomInfoWindows> {
           // Widget that manages the custom info windows
           CustomInfoWindow(
             controller: _customInfoWindowController,
-            height: 155, // Height of the custom info window
+            height: 171, // Height of the custom info window
             width: 250, // Width of the custom info window
             offset: 35, // Offset to position the info window above the marker
           ),
