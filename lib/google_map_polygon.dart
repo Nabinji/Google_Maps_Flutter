@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -30,12 +29,13 @@ class _GoogleMapPolygonState extends State<GoogleMapPolygon> {
   void addPolygon() {
     polygone.add(
       Polygon(
-          polygonId: PolygonId("Id"),
-          points: points,
-          strokeColor: Colors.blueAccent,
-          strokeWidth: 5,
-          fillColor: Colors.green.withOpacity(0.1),
-          geodesic: true),
+        polygonId: const PolygonId("Id"),
+        points: points,
+        strokeColor: Colors.blueAccent,
+        strokeWidth: 5,
+        fillColor: Colors.green.withOpacity(0.1),
+        geodesic: true,
+      ),
     );
   }
 
