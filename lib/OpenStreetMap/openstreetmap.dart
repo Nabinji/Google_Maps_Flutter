@@ -1,86 +1,70 @@
-import 'dart:convert'; // For decoding JSON responses from APIs.
-import 'package:flutter/material.dart'; // Flutter's UI framework for building the app interface.
-import 'package:flutter_map/flutter_map.dart'; // For integrating OpenStreetMap in Flutter.
-import 'package:flutter_map_location_marker/flutter_map_location_marker.dart'; // For displaying the user's current location on the map.
-import 'package:latlong2/latlong.dart'; // For handling geographic coordinates (latitude and longitude).
-import 'package:location/location.dart'; // For accessing the device's location services.
-import 'package:http/http.dart' as http; // For making HTTP requests to APIs.
-import 'package:flutter_polyline_points/flutter_polyline_points.dart'; // For decoding polylines into geographic coordinates.
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
-// The main screen widget that displays the OpenStreetMap and handles location-based features.
 class OpenstreetmapScreen extends StatefulWidget {
   const OpenstreetmapScreen({super.key});
 
   @override
-  _OpenstreetmapScreenState createState() => _OpenstreetmapScreenState();
+  State<OpenstreetmapScreen> createState() => _OpenstreetmapScreenState();
 }
 
-// The state class for the OpenstreetmapScreen widget.
 class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
-  // Location service to access the device's location.
   final Location _locationService = Location();
-  // Controller for the text field where users input their destination.
   final TextEditingController _locationController = TextEditingController();
-  // Controller for managing map operations like moving and zooming.
   final MapController _mapController = MapController();
-  // Boolean to indicate if the app is waiting for location data.
-  bool _isLoading = true;
-  // Stores the current location coordinates (latitude and longitude).
+  bool isLoading = true;
   LatLng? _currentLocation;
-  // Stores the destination coordinates (latitude and longitude).
   LatLng? _destination;
-  // Stores the route points between the current location and the destination.
   List<LatLng> _route = [];
 
-  // Initialize the current location when the screen loads.
   @override
   void initState() {
     super.initState();
-    _initializeLocation(); // Call the method to initialize location services.
+    _initializeLocation();
   }
 
-  // Method to initialize location services and listen for location updates.
   Future<void> _initializeLocation() async {
-    // Check and request location permissions before proceeding.
-    if (!await _checkAndRequestPermissions()) return;
+    if (!await _checkRequestPermissions()) return;
+    // listen for location updates and upadet he current location
 
-    // Listen for location updates and update the current location.
-    _locationService.onLocationChanged.listen(
-      (LocationData locationData) {
-        if (locationData.latitude != null && locationData.longitude != null) {
-          setState(() {
-            _currentLocation =
-                LatLng(locationData.latitude!, locationData.longitude!);
-            _isLoading = false; // Stop loading once the location is obtained.
-          });
-        }
-      },
-    );
+    _locationService.onLocationChanged.listen((LocationData locationData) {
+      if (locationData.latitude != null && locationData.longitude != null) {
+        setState(() {
+          _currentLocation =
+              LatLng(locationData.latitude!, locationData.longitude!);
+          isLoading = false; // stop loadin once the cocation is obtained.
+        });
+      }
+    });
   }
 
-  // Method to check if location services are enabled and request permissions if necessary.
-  Future<bool> _checkAndRequestPermissions() async {
-    // Check if location services are enabled.
+  Future<bool> _checkRequestPermissions() async {
     bool serviceEnabled = await _locationService.serviceEnabled();
     if (!serviceEnabled) {
-      // Request to enable location services if they are not enabled.
       serviceEnabled = await _locationService.requestService();
-      if (!serviceEnabled)
-        return false; // Return false if services are not enabled.
+      if (!serviceEnabled) {
+        return false;
+      }
     }
-    // Check if location permissions are granted.
+
     PermissionStatus permissionGranted = await _locationService.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
-      // Request location permissions if they are not granted.
       permissionGranted = await _locationService.requestPermission();
-      if (permissionGranted != PermissionStatus.granted)
-        return false; // Return false if permissions are not granted.
+      if (permissionGranted != PermissionStatus.granted) {
+        return false;
+      }
     }
-    return true; // Return true if permissions are granted.
+    return true;
   }
 
   // Method to center the map on the current location.
-  Future<void> _centerToCurrentLocation() async {
+  Future<void> userCurrentLocation() async {
     if (_currentLocation != null) {
       // Move the map to the current location with a zoom level of 15.
       _mapController.move(_currentLocation!, 15);
@@ -95,7 +79,7 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
   }
 
   // Method to fetch coordinates for a given location using the OpenStreetMap Nominatim API.
-  Future<void> _fetchCoordinates(String location) async {
+  Future<void> _fetchCoordinatesPoints(String location) async {
     final url = Uri.parse(
         'https://nominatim.openstreetmap.org/search?q=$location&format=json&limit=1');
     final response = await http.get(url);
@@ -103,13 +87,12 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       if (data.isNotEmpty) {
-        // Extract latitude and longitude from the API response.
         final lat = double.parse(data[0]['lat']);
         final lon = double.parse(data[0]['lon']);
         setState(() {
-          _destination = LatLng(lat, lon); // Set the destination coordinates.
+          _destination = LatLng(lat, lon);
         });
-        await _fetchRoute(); // Fetch the route to the destination.
+        await fetchRoute();
       } else {
         errorMessage('Location not found. Please try another search.');
       }
@@ -119,7 +102,7 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
   }
 
   // Method to fetch the route between the current location and the destination using the OSRM API.
-  Future<void> _fetchRoute() async {
+  Future<void> fetchRoute() async {
     if (_currentLocation == null || _destination == null) return;
     final url = Uri.parse('http://router.project-osrm.org/route/v1/driving/'
         '${_currentLocation!.longitude},${_currentLocation!.latitude};'
@@ -145,11 +128,11 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
     setState(() {
       _route = decodedPoints
           .map((point) => LatLng(point.latitude, point.longitude))
-          .toList(); // Convert the decoded points into LatLng objects.
+          .toList();
     });
   }
 
-  // Method to display an error message using a SnackBar.
+  // method to display an error message using a anackBar.
   void errorMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -158,19 +141,18 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
     );
   }
 
-  // Build method to create the UI of the screen.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
         title: const Text("OpenStreetMap"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blue,
       ),
       body: Stack(
         children: [
           // Show a loading indicator if the app is waiting for location data.
-          _isLoading
+          isLoading
               ? const Center(child: CircularProgressIndicator())
               : FlutterMap(
                   mapController: _mapController,
@@ -223,7 +205,6 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
                       ),
                   ],
                 ),
-          // Positioned widget to place the search bar at the top of the screen.
           Positioned(
             top: 0,
             right: 0,
@@ -239,7 +220,7 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: 'Enter a location',
+                        hintText: 'Enter your location',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide.none,
@@ -251,10 +232,11 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
                   ),
                   // IconButton to trigger the search for the entered location.
                   IconButton(
+                    style: IconButton.styleFrom(backgroundColor: Colors.white),
                     onPressed: () {
                       final location = _locationController.text.trim();
                       if (location.isNotEmpty) {
-                        _fetchCoordinates(
+                        _fetchCoordinatesPoints(
                             location); // Fetch coordinates for the entered location.
                       }
                     },
@@ -266,11 +248,15 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
           ),
         ],
       ),
-      // FloatingActionButton to center the map on the current location.
       floatingActionButton: FloatingActionButton(
-        onPressed: _centerToCurrentLocation,
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.my_location, color: Colors.white),
+        elevation: 0,
+        onPressed: userCurrentLocation,
+        backgroundColor: Colors.blue,
+        child: const Icon(
+          Icons.my_location,
+          size: 30,
+          color: Colors.white,
+        ),
       ),
     );
   }
