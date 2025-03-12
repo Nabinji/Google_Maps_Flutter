@@ -67,7 +67,7 @@ class _OpenstreetmapScreenState extends State<OpenstreetmapScreen> {
   Future<void> userCurrentLocation() async {
     if (_currentLocation != null) {
       // Move the map to the current location with a zoom level of 15.
-      _mapController.move(_currentLocation!, 15);
+      _mapController.move(_currentLocation!, 14);
     } else {
       // Show a message if the current location is not available.
       ScaffoldMessenger.of(context).showSnackBar(
