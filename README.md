@@ -1,16 +1,18 @@
-# google_map_in_flutter
+# Complete Source Code
+Google Map: https://buymeacoffee.com/wtfcode/e/384971
 
-A new Flutter project.
+# Google Map Feature
+You'll learn how to integrate Google Maps into your Flutter app. We'll cover:
 
-## Getting Started
+✅ Displaying Google Maps
+✅ Getting the user's current location
+✅ Adding custom markers and info windows
+✅ Drawing polygons and polylines on the map
+✅ Using the Google Maps API in Flutter
 
-This project is a starting point for a Flutter application.
+By the end of this tutorial, you'll have a fully functional map integration, perfect for location-based apps. Whether you're a beginner or an experienced developer, this guide will help you get started with Flutter Google Maps step by step! 🚀
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshot
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div align=center> <img src='assets/image1.png' width='300'> <img src='assets/image2.png' width='300'> <img src='assets/image3.png' width='300'> <img src='assets/image4.png' width='300'> <img src='assets/image5.png' width='300'> 
+</div>
